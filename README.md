@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Therapeutic Games Platform
 
-## Getting Started
+AI-powered cognitive health screening through interactive games. Screens for glaucoma, ADHD, and early Alzheimer's indicators via 5 game-based assessments with PDF report generation.
 
-First, run the development server:
+## Tech Stack
+
+| Layer      | Technology                             |
+| ---------- | -------------------------------------- |
+| Framework  | Next.js 14 (App Router)                |
+| Language   | TypeScript                             |
+| Auth & DB  | Supabase (Auth + PostgreSQL + Storage) |
+| Styling    | Tailwind CSS                           |
+| State      | Zustand                                |
+| Charts     | Recharts                               |
+| PDF        | @react-pdf/renderer                    |
+| Animations | Framer Motion                          |
+| Deployment | Vercel                                 |
+
+## Games
+
+| Game               | Domain              | Duration |
+| ------------------ | ------------------- | -------- |
+| Glaucoma Screening | Visual Field        | ~3 min   |
+| ADHD Assessment    | Sustained Attention | ~5 min   |
+| Labyrinth          | Spatial Navigation  | ~5 min   |
+| Memory Cards       | Working Memory      | ~3 min   |
+| Med-Coach Quiz     | Health Knowledge    | ~3 min   |
+
+---
+
+## Local Development
+
+### 1. Clone & install
+
+```bash
+git clone <repo-url>
+cd therapeutic-games
+npm install
+```
+
+### 2. Configure environment variables
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
+SUPABASE_SERVICE_ROLE_KEY=<service-role-key>
+```
+
+Find these in: **Supabase Dashboard → Project Settings → API**.
+
+### 3. Run database migrations
+
+In [Supabase SQL Editor](https://supabase.com/dashboard/project/_/sql/new) run in order:
+
+1. `supabase/migrations/20240101000000_init.sql`
+2. `supabase/migrations/20240102000000_sessions.sql`
+
+### 4. Start dev server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploying to Vercel
 
-## Learn More
+### Vercel Dashboard (recommended)
 
-To learn more about Next.js, take a look at the following resources:
+1. Push to GitHub and import the repo at [vercel.com/new](https://vercel.com/new)
+2. Add environment variables:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+3. Click **Deploy**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Vercel CLI
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm i -g vercel && vercel login
+vercel env add NEXT_PUBLIC_SUPABASE_URL
+vercel env add NEXT_PUBLIC_SUPABASE_ANON_KEY
+vercel env add SUPABASE_SERVICE_ROLE_KEY
+vercel --prod
+```
 
-## Deploy on Vercel
+### Post-deployment checklist
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- [ ] Landing page loads at `/`
+- [ ] Register account and confirm email
+- [ ] Create session, complete games end-to-end
+- [ ] PDF download works
+- [ ] Results radar chart renders
+- [ ] Disclaimer banner visible and dismissible
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Project Structure
+
+```
+app/
+  (auth)/           # Login & Register
+  (dashboard)/      # Dashboard with session history
+  session/[id]/     # Game host + Results
+  api/pdf/generate/ # PDF generation API
+  page.tsx          # Landing page
+
+components/
+  games/            # All 5 game components
+  pdf/              # PdfReport (5 pages)
+  DisclaimerBanner  # Dismissible research disclaimer
+  GameErrorBoundary # Per-game error recovery
+
+lib/
+  games/            # Types, engines, scoring
+  supabase/         # client / server / admin
+```
+
+---
+
+## Environment Variables
+
+| Variable                        | Description                    |
+| ------------------------------- | ------------------------------ |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase project URL           |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Public anon key                |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Service role key (server only) |
+
+---
+
+> **Medical Disclaimer:** This is a research demonstration tool and does not constitute a medical device or clinical diagnostic tool. Results must be reviewed by a qualified healthcare professional.
