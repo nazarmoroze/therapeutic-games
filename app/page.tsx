@@ -20,11 +20,15 @@ export const metadata = {
 }
 
 export default async function LandingPage() {
-  const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (user) redirect('/dashboard')
+  try {
+    const supabase = await createClient()
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
+    if (user) redirect('/dashboard')
+  } catch {
+    // env vars not configured — render landing page without auth check
+  }
 
   return (
     <div className="min-h-screen bg-white">
