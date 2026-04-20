@@ -6,12 +6,22 @@ export const metadata: Metadata = {
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-violet-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm">
+    <div className="min-h-screen bg-[--background] flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background glowing orbs */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--primary)]/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-[#34d399]/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="w-full max-w-sm relative z-10">
         {/* Logo / brand mark */}
-        <div className="mb-8 text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-indigo-600 mb-4 shadow-lg shadow-indigo-200">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-white">
+        <div className="mb-10 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/60 shadow-lg border border-white mb-6">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="text-[var(--foreground)]"
+            >
               <path
                 d="M12 3C7.03 3 3 7.03 3 12s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9z"
                 fill="currentColor"
@@ -24,19 +34,21 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               <path
                 d="M12 3v2M12 19v2M3 12H5M19 12h2M5.64 5.64l1.41 1.41M16.95 16.95l1.41 1.41M5.64 18.36l1.41-1.41M16.95 7.05l1.41-1.41"
                 stroke="currentColor"
-                strokeWidth="1.5"
+                strokeWidth="2"
                 strokeLinecap="round"
               />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Therapeutic Games</h1>
-          <p className="text-sm text-slate-500 mt-1">Mind wellness through play</p>
+          <h1 className="text-3xl font-extrabold text-[var(--foreground)] tracking-tighter">
+            Soma Therapy
+          </h1>
+          <p className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--muted-foreground)] mt-2">
+            Mind wellness through play
+          </p>
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8">
-          {children}
-        </div>
+        <div className="glass-panel p-8 sm:p-10 rounded-[3rem] border-white/80">{children}</div>
       </div>
     </div>
   )

@@ -25,25 +25,27 @@ export function DashboardNav({ displayName }: DashboardNavProps) {
   }
 
   return (
-    <header className="sticky top-0 z-30 bg-white border-b border-slate-200 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <header className="sticky top-6 z-30 mx-auto max-w-[700px] px-4">
+      <div className="glass-panel h-16 rounded-full flex items-center justify-between px-5">
         {/* Brand */}
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600">
-            <Brain className="h-4 w-4 text-white" />
+        <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--primary)] text-white shadow-md">
+            <Brain className="h-5 w-5" />
           </div>
-          <span className="font-semibold text-slate-900 text-sm sm:text-base">
-            Therapeutic Games
+          <span className="font-bold text-[var(--foreground)] text-sm sm:text-base tracking-tight">
+            Soma Therapy
           </span>
         </div>
 
         {/* User menu */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 text-sm text-slate-600">
-            <div className="w-7 h-7 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-semibold">
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-2 mr-2">
+            <div className="w-8 h-8 rounded-full bg-white border border-white/60 shadow-sm text-[var(--foreground)] flex items-center justify-center text-xs font-bold">
               {initials}
             </div>
-            <span className="max-w-[160px] truncate">{displayName}</span>
+            <span className="max-w-[120px] truncate text-sm font-semibold opacity-80">
+              {displayName}
+            </span>
           </div>
 
           <Button
@@ -51,10 +53,9 @@ export function DashboardNav({ displayName }: DashboardNavProps) {
             size="sm"
             onClick={handleLogout}
             loading={loggingOut}
-            className="text-slate-500 hover:text-red-600 hover:bg-red-50"
+            className="w-10 h-10 p-0 rounded-full bg-white/50 text-[var(--foreground)] hover:bg-black/10 shadow-sm"
           >
             <LogOut className="h-4 w-4" />
-            <span className="hidden sm:inline">Sign out</span>
           </Button>
         </div>
       </div>

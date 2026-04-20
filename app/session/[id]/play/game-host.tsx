@@ -40,18 +40,20 @@ function SessionStepper({
   completedGames: Set<GameType>
 }) {
   return (
-    <div className="bg-white border-b border-slate-200 px-4 py-4 sticky top-0 z-20">
-      <div className="max-w-3xl mx-auto">
+    <div className="glass-panel border-b-0 rounded-none border-[var(--primary)]/10 px-4 py-4 sticky top-0 z-20 backdrop-blur-2xl">
+      <div className="max-w-4xl mx-auto">
         {/* Label row */}
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-medium text-slate-700">
-            Game {Math.min(currentIndex + 1, games.length)} of {games.length}
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--primary)]">
+            Module {Math.min(currentIndex + 1, games.length)} / {games.length}
           </span>
-          <span className="text-xs text-slate-400">{completedGames.size} completed</span>
+          <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--muted-foreground)]">
+            {completedGames.size} Diagnosed
+          </span>
         </div>
 
         {/* Steps */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
           {games.map((game, idx) => {
             const done = completedGames.has(game)
             const active = idx === currentIndex
@@ -59,25 +61,28 @@ function SessionStepper({
             const Icon = GAME_ICONS[game]
 
             return (
-              <div key={game} className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1">
+              <div key={game} className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                 {/* Step circle */}
                 <div
                   className={[
-                    'flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all',
+                    'flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-xl border-2 transition-all shadow-md',
                     done
-                      ? 'bg-indigo-600 border-indigo-600'
+                      ? 'bg-[var(--primary)] border-[var(--primary)] text-[var(--background)] shadow-[0_0_15px_var(--primary)]'
                       : active
-                        ? 'border-indigo-500 bg-indigo-50'
-                        : 'border-slate-200 bg-white',
+                        ? 'border-[var(--primary)] bg-[var(--primary)]/10'
+                        : 'border-[var(--foreground)]/10 bg-[var(--foreground)]/5',
                   ].join(' ')}
                 >
                   {done ? (
-                    <CheckCircle2 className="h-4 w-4 text-white" />
+                    <CheckCircle2 className="h-5 w-5 text-white" />
                   ) : (
                     <Icon
-                      className={['h-3.5 w-3.5', active ? config.textColor : 'text-slate-300'].join(
-                        ' '
-                      )}
+                      className={[
+                        'h-5 w-5',
+                        active
+                          ? 'text-[var(--primary)] shadow-[var(--primary)]'
+                          : 'text-[var(--muted-foreground)]',
+                      ].join(' ')}
                     />
                   )}
                 </div>
@@ -85,12 +90,12 @@ function SessionStepper({
                 {/* Label (hidden on xs) */}
                 <span
                   className={[
-                    'hidden sm:block text-xs truncate min-w-0',
+                    'hidden sm:block text-xs font-bold tracking-tight truncate min-w-0',
                     active
-                      ? 'text-slate-900 font-semibold'
+                      ? 'text-[var(--foreground)]'
                       : done
-                        ? 'text-slate-400 line-through'
-                        : 'text-slate-400',
+                        ? 'text-[var(--muted-foreground)] line-through opacity-50'
+                        : 'text-[var(--muted-foreground)]',
                   ].join(' ')}
                 >
                   {config.shortLabel}
@@ -101,7 +106,7 @@ function SessionStepper({
                   <div
                     className={[
                       'hidden sm:block flex-1 h-px',
-                      done ? 'bg-indigo-300' : 'bg-slate-200',
+                      done ? 'bg-[var(--primary)]/50' : 'bg-[var(--foreground)]/10',
                     ].join(' ')}
                   />
                 )}
@@ -137,47 +142,63 @@ function GameTransitionOverlay({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-indigo-950/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)]/90 backdrop-blur-xl"
     >
       <motion.div
         initial={{ scale: 0.85, y: 24, opacity: 0 }}
         animate={{ scale: 1, y: 0, opacity: 1 }}
         exit={{ scale: 0.9, y: -16, opacity: 0 }}
         transition={{ type: 'spring', stiffness: 300, damping: 26 }}
-        className="bg-white rounded-3xl shadow-2xl p-10 max-w-sm w-full mx-4 text-center"
+        className="glass-panel p-10 max-w-sm w-full mx-4 text-center border-[var(--primary)]/30 shadow-[0_0_50px_var(--primary)]/10"
       >
         {/* Glow ring */}
-        <div className="relative inline-flex mb-6">
-          <div className="absolute inset-0 rounded-full bg-indigo-400 opacity-20 blur-xl scale-150" />
+        <div className="relative inline-flex mb-8">
+          <div className="absolute inset-0 rounded-[2rem] bg-[var(--primary)] opacity-20 blur-2xl scale-[1.7]" />
           <div
-            className={`relative flex items-center justify-center w-20 h-20 rounded-full border-4 border-white shadow-xl ${config.bgColor}`}
+            className={`relative flex items-center justify-center w-24 h-24 rounded-[2rem] border border-[var(--primary)]/30 shadow-2xl bg-[var(--background)]/80 backdrop-blur-md`}
           >
-            <Icon className={`h-9 w-9 ${config.textColor}`} />
+            <Icon
+              className={`h-12 w-12 text-[var(--primary)] pointer-events-none drop-shadow-[0_0_10px_var(--primary)]`}
+            />
           </div>
         </div>
 
-        <p className="text-xs font-semibold tracking-widest uppercase text-slate-400 mb-1">
-          Game Complete
+        <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-[var(--primary)] mb-2 drop-shadow-md">
+          Sequence Complete
         </p>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">{config.shortLabel}</h2>
+        <h2 className="text-2xl font-extrabold tracking-tight text-[var(--foreground)] mb-6">
+          {config.shortLabel}
+        </h2>
 
-        <div className="flex items-center justify-center gap-2 my-4">
-          <Trophy className="h-5 w-5 text-amber-500" />
-          <span className="text-4xl font-extrabold text-slate-900">{score}</span>
-          <span className="text-slate-400 text-lg font-medium">/100</span>
+        <div className="flex items-center justify-center gap-3 my-6">
+          <Trophy className="h-6 w-6 text-[#34d399] drop-shadow-[0_0_15px_#34d399]" />
+          <span className="text-6xl font-black text-[var(--foreground)] tracking-tighter drop-shadow-lg">
+            {score}
+          </span>
+          <span className="text-[var(--muted-foreground)] text-sm font-bold tracking-widest mt-4">
+            / 100
+          </span>
         </div>
 
-        <div className={['h-2 rounded-full mb-6 bg-slate-100 overflow-hidden'].join(' ')}>
+        <div
+          className={[
+            'h-3 rounded-full mb-8 bg-[var(--foreground)]/5 overflow-hidden shadow-inner border border-[var(--foreground)]/10',
+          ].join(' ')}
+        >
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${score}%` }}
             transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-            className="h-full bg-indigo-500 rounded-full"
+            className={`h-full bg-[#34d399] rounded-full shadow-[0_0_15px_#34d399]`}
           />
         </div>
 
-        <Button size="lg" className="w-full" onClick={onContinue}>
-          {isLast ? '🎉 View Results' : 'Next Game →'}
+        <Button
+          size="lg"
+          className="w-full tracking-widest uppercase font-bold shadow-[0_0_20px_var(--primary)]/30 hover:scale-105 active:scale-95 transition-all text-xs"
+          onClick={onContinue}
+        >
+          {isLast ? 'Synthesize Results' : 'Next Module'}
         </Button>
       </motion.div>
     </motion.div>
@@ -197,31 +218,45 @@ function GamePlaceholder({ gameType, onFinish }: { gameType: GameType; onFinish:
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -24 }}
       transition={{ duration: 0.3 }}
-      className="flex flex-col items-center justify-center gap-8 flex-1 py-16 px-4"
+      className="flex flex-col items-center justify-center gap-10 flex-1 py-16 px-4"
     >
       <div
-        className={`flex items-center justify-center w-24 h-24 rounded-3xl border-2 ${config.bgColor} ${config.borderColor} shadow-sm`}
+        className={`flex items-center justify-center w-28 h-28 rounded-[2.5rem] border border-[var(--primary)]/30 bg-[var(--primary)]/5 shadow-[0_0_30px_var(--primary)]/20 relative`}
       >
-        <Icon className={`h-12 w-12 ${config.textColor}`} />
+        <div className="absolute inset-0 bg-gradient-to-tr from-[var(--primary)]/10 to-transparent blur-[2px] rounded-[2.5rem] z-0" />
+        <Icon className={`h-14 w-14 text-[var(--primary)] z-10`} />
       </div>
 
       <div className="text-center max-w-sm">
-        <p className="text-xs font-semibold tracking-widest uppercase text-slate-400 mb-1">
-          Placeholder
+        <p className="text-[10px] font-bold tracking-[0.2em] uppercase text-[var(--primary)] mb-3">
+          Virtual Interface
         </p>
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">{config.label}</h2>
-        <p className="text-slate-500 text-sm leading-relaxed">{config.description}</p>
+        <h2 className="text-3xl font-extrabold tracking-tight text-[var(--foreground)] mb-4">
+          {config.label}
+        </h2>
+        <p className="text-[var(--muted-foreground)] text-sm font-medium leading-relaxed tracking-tight">
+          {config.description}
+        </p>
       </div>
 
       {/* Mock game area */}
       <div
-        className={`w-full max-w-lg h-56 rounded-2xl border-2 border-dashed ${config.borderColor} ${config.bgColor} flex items-center justify-center`}
+        className={`w-full max-w-xl h-64 rounded-3xl border border-dashed border-[var(--primary)]/30 bg-[var(--primary)]/5 flex items-center justify-center relative overflow-hidden backdrop-blur-xl group hover:border-[var(--primary)]/60 transition-colors`}
       >
-        <p className="text-sm font-mono text-slate-400">GAME: {gameType}</p>
+        <div className="absolute top-0 right-0 p-4 border-b border-l border-[var(--primary)]/20 rounded-bl-3xl bg-[var(--primary)]/10 text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--primary)]">
+          Mock Env
+        </div>
+        <p className="text-xs font-bold tracking-[0.3em] uppercase text-[var(--muted-foreground)] group-hover:text-[var(--primary)] transition-colors">
+          Module: <span className="text-[var(--foreground)]">{gameType}</span>
+        </p>
       </div>
 
-      <Button size="lg" onClick={onFinish}>
-        Finish Game
+      <Button
+        size="lg"
+        onClick={onFinish}
+        className="px-10 text-xs font-bold tracking-widest uppercase hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_bg-[var(--primary)]]/30"
+      >
+        Execute Sequence
       </Button>
     </motion.div>
   )

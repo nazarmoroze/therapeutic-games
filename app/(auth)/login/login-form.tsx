@@ -24,48 +24,65 @@ export function LoginForm() {
 
   return (
     <>
-      <h2 className="text-xl font-semibold text-slate-900 mb-1">Welcome back</h2>
-      <p className="text-sm text-slate-500 mb-6">Sign in to continue your sessions</p>
+      <h2 className="text-3xl font-extrabold tracking-tighter text-[var(--foreground)] mb-1 text-center">
+        Sign In
+      </h2>
+      <p className="text-xs font-bold tracking-widest uppercase text-[var(--muted-foreground)] mb-10 text-center">
+        Continue your sessions
+      </p>
 
-      <form action={formAction} className="flex flex-col gap-4">
+      <form action={formAction} className="flex flex-col gap-6">
         <input type="hidden" name="next" value={next} />
 
-        <Input
-          label="Email"
-          name="email"
-          type="email"
-          placeholder="you@example.com"
-          autoComplete="email"
-          required
-        />
-
-        <div className="flex flex-col gap-1.5">
+        <div className="flex flex-col gap-5">
           <Input
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="••••••••"
-            autoComplete="current-password"
+            label="Email"
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            autoComplete="email"
             required
+            className="bg-white/50 backdrop-blur-md"
           />
-          <div className="text-right">
-            <span className="text-xs text-slate-400">Forgot password? Contact support.</span>
+
+          <div className="flex flex-col gap-2">
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              autoComplete="current-password"
+              required
+              className="bg-white/50 backdrop-blur-md"
+            />
+            <div className="text-right px-2 mt-1">
+              <span className="text-[10px] font-bold text-[var(--muted-foreground)] opacity-70 tracking-widest uppercase hover:opacity-100 cursor-pointer transition-opacity">
+                Forgot password?
+              </span>
+            </div>
           </div>
         </div>
 
         {state.error && (
-          <div className="rounded-lg bg-red-50 border border-red-200 px-4 py-3">
-            <p className="text-sm text-red-700">{state.error}</p>
+          <div className="rounded-2xl bg-red-500/10 border border-red-500/30 px-5 py-4 backdrop-blur-xl">
+            <p className="text-sm font-bold text-red-600 tracking-wide text-center">
+              {state.error}
+            </p>
           </div>
         )}
 
-        <SubmitButton />
+        <div className="mt-2">
+          <SubmitButton />
+        </div>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-500">
-        Don&apos;t have an account?{' '}
-        <Link href="/register" className="text-indigo-600 font-medium hover:underline">
-          Create one
+      <p className="mt-8 text-center text-xs font-bold tracking-wider text-[var(--muted-foreground)]">
+        NEW USER?{' '}
+        <Link
+          href="/register"
+          className="text-[var(--foreground)] tracking-[0.15em] ml-1 uppercase hover:opacity-70 transition-opacity"
+        >
+          Create Account
         </Link>
       </p>
     </>

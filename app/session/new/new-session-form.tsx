@@ -280,21 +280,24 @@ export function NewSessionForm() {
         )}
 
         {/* Submit */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-between gap-4 mt-4 glass-panel p-6 rounded-[2.5rem] border-white/80">
+          <Link
+            href="/dashboard"
+            className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors tracking-wide px-4"
+          >
+            Cancel
+          </Link>
           <Button
             type="submit"
             size="lg"
             disabled={selectedGames.length === 0 || submitting}
             loading={submitting}
-            className="min-w-[180px]"
+            className="min-w-[200px]"
           >
             {submitting
               ? 'Starting…'
-              : `Start Session (${orderedSelection.length} game${orderedSelection.length !== 1 ? 's' : ''})`}
+              : `Start Session • ${orderedSelection.length} game${orderedSelection.length !== 1 ? 's' : ''}`}
           </Button>
-          <Link href="/dashboard" className="text-sm text-slate-500 hover:text-slate-700">
-            Cancel
-          </Link>
         </div>
       </form>
     </div>

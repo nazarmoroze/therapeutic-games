@@ -11,18 +11,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<NonNullable<ButtonProps['variant']>, string> = {
   primary:
-    'bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 focus-visible:ring-indigo-500',
+    'bg-[var(--primary)] text-white hover:bg-[var(--primary-hover)] active:bg-[#000] focus-visible:ring-[var(--foreground)] shadow-lg shadow-black/10',
   secondary:
-    'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 active:bg-slate-100 focus-visible:ring-indigo-500',
-  ghost: 'text-slate-600 hover:bg-slate-100 active:bg-slate-200 focus-visible:ring-indigo-500',
+    'bg-white/60 backdrop-blur-xl text-[var(--foreground)] border border-white/60 hover:bg-white/80 active:bg-white focus-visible:ring-[var(--foreground)] shadow-sm shadow-black/5',
+  ghost:
+    'text-[var(--foreground)] hover:bg-black/5 active:bg-black/10 focus-visible:ring-[var(--foreground)]',
   destructive:
-    'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus-visible:ring-red-500',
+    'bg-red-500 text-white hover:bg-red-600 active:bg-red-700 focus-visible:ring-red-500 shadow-md',
 }
 
 const sizeClasses: Record<NonNullable<ButtonProps['size']>, string> = {
-  sm: 'h-8 px-3 text-sm rounded-md',
-  md: 'h-10 px-4 text-sm rounded-lg',
-  lg: 'h-11 px-6 text-base rounded-lg',
+  sm: 'h-9 px-4 text-xs tracking-wide rounded-full font-semibold',
+  md: 'h-12 px-6 text-sm tracking-wide rounded-full font-semibold',
+  lg: 'h-14 px-8 text-base tracking-wide rounded-full font-semibold',
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(

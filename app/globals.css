@@ -4,20 +4,20 @@
 
 @layer base {
   :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-    --border: #e2e8f0;
-    --input-border: #cbd5e1;
-    --primary: #4f46e5;
-    --primary-hover: #4338ca;
+    --background: #ebecef;
+    --foreground: #18191b;
+    --card: rgba(255, 255, 255, 0.45);
+    --card-foreground: #18191b;
+    --border: rgba(255, 255, 255, 0.6);
+    --input-border: rgba(0, 0, 0, 0.1);
+    --primary: #18191b;
+    --primary-hover: #2b2d30;
     --primary-foreground: #ffffff;
-    --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    --destructive: #dc2626;
-    --success: #16a34a;
-    --ring: #6366f1;
+    --muted: rgba(0, 0, 0, 0.05);
+    --muted-foreground: #737882;
+    --destructive: #ff4d4d;
+    --success: #34d399;
+    --ring: #18191b;
   }
 
   * {
@@ -42,8 +42,8 @@
   h4,
   h5,
   h6 {
-    font-weight: 600;
-    letter-spacing: -0.025em;
+    font-weight: 700;
+    letter-spacing: -0.04em;
   }
 }
 
@@ -53,6 +53,10 @@
   }
 
   .focus-ring {
-    @apply outline-none ring-2 ring-[--ring] ring-offset-2;
+    @apply outline-none ring-2 ring-[--ring] ring-offset-2 ring-offset-[--background];
+  }
+
+  .glass-panel {
+    @apply bg-[--card] backdrop-blur-2xl border border-[--border] shadow-[0_8px_32px_rgba(0,0,0,0.04)];
   }
 }
